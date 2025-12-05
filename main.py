@@ -96,3 +96,12 @@ def api_list_links_paginated(response: Response, range: str = Query("[0,10]"), s
     paginated_links = links[start:end]
     response.headers["Content-Range"] = f"links {start}-{min(end, total)}/{total}"
     return [{"id": l.id, "original_url": l.original_url, "short_name": l.short_name, "short_url": f"{BASE_URL}/{l.short_name}"} for l in paginated_links]
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
