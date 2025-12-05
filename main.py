@@ -25,3 +25,16 @@ async def log_requests(request: Request, call_next):
 @app.get("/ping")
 async def ping():
     return "pong"
+
+import os
+import sentry_sdk
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+
+SENTRY_DSN = os.getenv("SENTRY_DSN")
+if SENTRY_DSN:
+    sentry_sdk.init(dsn=SENTRY_DSN)
+    app.add_middleware(SentryAsgiMiddleware)
+
+@app.get("/error")
+async def trigger_error():
+    raise RuntimeError("Test Sentry error")

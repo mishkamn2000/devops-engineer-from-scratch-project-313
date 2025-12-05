@@ -20,3 +20,13 @@ Copy code
 make check
 # ожидаемый вывод:
 # "pong"
+
+## Деплой
+
+Приложение развёрнуто на Render: https://<YOUR_RENDER_SUBDOMAIN>.onrender.com
+
+### Переменные окружения
+
+- PORT=8080
+- DATABASE_URL=<ваш URL базы данных>
+- SENTRY_DSN=<ваш DSN для Sentry>
