@@ -17,3 +17,6 @@ lint:
 
 test_links:
 	pytest -q tests/test_links.py
+
+test_pagination:
+	pytest -q tests/test_links_pagination.py

@@ -81,3 +81,18 @@ def api_delete_link(link_id: int, session: Session = Depends(get_session)):
     success = delete_link(session, link_id)
     if not success:
         raise HTTPException(status_code=404, detail="Link not found")
+
+from fastapi import Query, Response
+
+@app.get("/api/links")
+def api_list_links_paginated(response: Response, range: str = Query("[0,10]"), session: Session = Depends(get_session)):
+    import json, re
+    m = re.match(r"\[(\d+),\s*(\d+)\]", range)
+    start, end = (0, 10)
+    if m:
+        start, end = int(m.group(1)), int(m.group(2))
+    links = list_links(session)
+    total = len(links)
+    paginated_links = links[start:end]
+    response.headers["Content-Range"] = f"links {start}-{min(end, total)}/{total}"
+    return [{"id": l.id, "original_url": l.original_url, "short_name": l.short_name, "short_url": f"{BASE_URL}/{l.short_name}"} for l in paginated_links]
