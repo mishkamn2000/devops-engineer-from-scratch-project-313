@@ -10,8 +10,10 @@ run:
 check:
 	curl -s http://localhost:8080/ping
 
-test:
 	pytest -q
 
 lint:
 	ruff check .
+
+test_links:
+	pytest -q tests/test_links.py
